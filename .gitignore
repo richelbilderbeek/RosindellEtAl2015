@@ -27,3 +27,5 @@
 *.out
 *.app
 *.pro.user
+/build-RosindellEtAl2015-Desktop-Debug/*
+/build-RosindellEtAl2015-Desktop-Release/*

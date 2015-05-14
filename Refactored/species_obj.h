@@ -11,7 +11,7 @@ class species_obj {
 
 private:
   //E.g. consider a good and incipition species, where
-  // both trait and abundances are kept together
+  // both trait and abundances are` kept together
   //
   //   |
   //   |
