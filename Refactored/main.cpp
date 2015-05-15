@@ -54,10 +54,14 @@ int main(int argc, char* argv[])
   nu_vect.clear();
   S_vect.clear();
 
+  JM_vect.push_back(100);
+  JM_vect.push_back(1000);
+
+  /*
   JM_vect.push_back(10000);
   JM_vect.push_back(100000);
   JM_vect.push_back(1000000);
-
+  */
   nu_vect.push_back(0.0001);
   nu_vect.push_back(0.0003);
   nu_vect.push_back(0.001);

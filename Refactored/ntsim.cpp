@@ -443,11 +443,11 @@ void NTsim::output()
       num_done.clear();
 
       // initialise a std::vector pruned_spec of  species objects that gets passed up the tree and amalgamated as appropriate - this is stored on the parent of the species
-      std::vector<species_obj> pruned_spec;
+      std::vector<Species> pruned_spec;
       pruned_spec.clear();
 
       // here is a std::vector that will store the final result
-      std::vector<species_obj> final_spec;
+      std::vector<Species> final_spec;
       final_spec.clear();
       // species object std::vector contains the abundance and c values of all sub species and can produce the necessary outputs.
 
@@ -456,8 +456,8 @@ void NTsim::output()
       // now we fill all these std::vectors with their initial conditions.
       for (long i = 0 ; i < abundances.size() ; ++i)
       {
-        species_obj newspec;
-        newspec.setup(abundances[i],selection_level[i]);
+        Species newspec;
+        newspec.Setup(abundances[i],selection_level[i]);
         pruned_spec.push_back(newspec);
         num_done.push_back(0);
         num_child.push_back(0);
@@ -582,21 +582,21 @@ void NTsim::output()
                 {
                   // lumping
 
-                  pruned_spec[parents[i]].add(pruned_spec[i]);
+                  pruned_spec[parents[i]].Add(pruned_spec[i]);
                   num_done[i] = -1;
                   num_done[parents[i]] ++;
-                  pruned_spec[i].clear();
+                  pruned_spec[i].Clear();
                 }
                 else
                 {
                   // splitting
-                  if ((pruned_spec[i]).get_tot_abund() > 0)
+                  if ((pruned_spec[i]).GetSumAbundances() > 0)
                   {
                     final_spec.push_back(pruned_spec[i]);
                   }
                   num_done[i] = -1;
                   num_done[parents[i]] ++;
-                  pruned_spec[i].clear();
+                  pruned_spec[i].Clear();
                 }
               }
             }
@@ -610,7 +610,7 @@ void NTsim::output()
       // could be that the final parent needs to be added still
       for (long i = 0 ; i < abundances.size() ; ++i)
       {
-        if ((parents[i] == -1)&&((pruned_spec[i]).get_subspec()>0))
+        if ((parents[i] == -1)&&((pruned_spec[i]).GetNumberOfSpecies()>0))
         {
           final_spec.push_back(pruned_spec[i]);
         }
@@ -621,10 +621,10 @@ void NTsim::output()
       long num_ind_total = 0;
       for (long i = 0 ; i < final_spec.size() ; ++i)
       {
-        if ((final_spec[i].get_tot_abund())>0)
+        if ((final_spec[i].GetSumAbundances())>0)
         {
           num_spec_total ++;
-          num_ind_total += (final_spec[i].get_tot_abund());
+          num_ind_total += (final_spec[i].GetSumAbundances());
         }
       }
 
@@ -658,19 +658,19 @@ void NTsim::output()
 
       for (long i = 0 ; i < final_spec.size() ; ++i)
       {
-        if ((final_spec[i].get_tot_abund())>0)
+        if ((final_spec[i].GetSumAbundances())>0)
         {
 
-          temp_num_subspec += (double(final_spec[i].get_subspec()));
-          temp_tot_abund += (double(final_spec[i].get_tot_abund()));
+          temp_num_subspec += (double(final_spec[i].GetNumberOfSpecies()));
+          temp_tot_abund += (double(final_spec[i].GetSumAbundances()));
 
-          temp_meanc += (double(final_spec[i].get_meanc()));
+          temp_meanc += (double(final_spec[i].GetMeanTrait()));
           temp_varc += (double(final_spec[i].get_varc()));
           temp_rangec += (double(final_spec[i].get_maxc()-final_spec[i].get_minc()));
 
-          temp_meanc_w += (double(final_spec[i].get_tot_abund())*double(final_spec[i].get_meanc()));
-          temp_varc_w += (double(final_spec[i].get_tot_abund())*double(final_spec[i].get_varc()));
-          temp_rangec_w += (double(final_spec[i].get_tot_abund())*double(final_spec[i].get_maxc()-final_spec[i].get_minc()));
+          temp_meanc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetMeanTrait()));
+          temp_varc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].get_varc()));
+          temp_rangec_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].get_maxc()-final_spec[i].get_minc()));
 
         }
 
