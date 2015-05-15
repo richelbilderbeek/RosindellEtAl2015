@@ -53,12 +53,12 @@ CONFIG(release, debug|release) {
 
 
 SOURCES += main.cpp \
-    species_obj.cpp \
     nrrand.cpp \
     ntsim.cpp \
-    ntsim_test.cpp
+    ntsim_test.cpp \
+    species.cpp
 
 HEADERS += \
-    species_obj.h \
     nrrand.h \
-    ntsim.h
+    ntsim.h \
+    species.h

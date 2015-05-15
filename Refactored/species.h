@@ -1,7 +1,6 @@
-#ifndef SPECIES_OBJ_H
-#define SPECIES_OBJ_H
+#ifndef SPECIES_H
+#define SPECIES_H
 
-#include <iostream>
 #include <vector>
 
 ///Good species object
@@ -44,8 +43,7 @@ private:
   std::vector<long> m_abundances;
 
   const std::vector<long>& GetAbundances() const noexcept { return m_abundances; }
-  double GetTraitVarianceOld() const noexcept;
   const std::vector<long>& GetTraits() const noexcept { return m_traits; }
 };
 
-#endif // SPECIES_OBJ_H
+#endif // SPECIES_H

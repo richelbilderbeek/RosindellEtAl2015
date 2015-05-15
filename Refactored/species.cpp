@@ -1,7 +1,8 @@
-#include "species_obj.h"
+#include "species.h"
 
 #include <algorithm>
 #include <cassert>
+#include <fstream>
 
 Species::Species()
   : m_traits{},
@@ -12,8 +13,8 @@ Species::Species()
 
 void Species::Add(const Species& x) noexcept
 {
-  std::vector<long> abundances = x.GetAbundances();
-  std::vector<long> traits = x.GetTraits();
+  const auto& abundances = x.GetAbundances();
+  const auto& traits = x.GetTraits();
   assert(x.GetAbundances().size() == x.GetTraits().size());
   std::copy(std::begin(abundances),std::end(abundances),std::back_inserter(m_abundances));
   std::copy(std::begin(traits),std::end(traits),std::back_inserter(m_traits));
@@ -24,7 +25,6 @@ void Species::Clear() noexcept
   m_traits.clear();
   m_abundances.clear();
 }
-
 
 long Species::GetNumberOfSpecies() const noexcept
 {
@@ -76,30 +76,34 @@ double Species::GetTraitMean() const noexcept
 
 double Species::GetTraitVariance() const noexcept
 {
-  const double trait_variance = GetTraitVarianceOld();
-  const double trait_variance_old = GetTraitVarianceOld();
-  assert(trait_variance == trait_variance_old);
-  return trait_variance;
-}
+  const double numr = double(GetSumAbundances());
 
-double Species::GetTraitVarianceOld() const noexcept
-{
-  if ((m_traits.size() > 1)&&(GetSumAbundances() > 1))
+  //TODO: This can be shortened after adding higher-level tests
+  double trait_variance = 0.0;
+  if (m_traits.size() > 1 && numr > 1)
   {
-    double tot = 0;
-    double tot2 = 0;
-    double numr = double(GetSumAbundances());
-    for (long i = 0 ; i < m_traits.size() ; ++i)
-    {
-      tot += double(m_traits[i]*m_abundances[i]);
-      tot2 += double(m_traits[i])*double(m_traits[i]*m_abundances[i]);
-    }
-    return ((numr/(numr-1)) * ((tot2/numr)-((tot/numr)*(tot/numr))));
+    //We can calculate a variance
+    const double sip = //Sum of Inner Product
+      std::inner_product(
+        std::begin(m_traits),
+        std::end(m_traits),
+        std::begin(m_abundances),
+        0.0
+      );
+    const double sipst = //Sum of Inner Product with squared traits
+      std::inner_product(
+        std::begin(m_traits),
+        std::end(m_traits),
+        std::begin(m_abundances),
+        0.0,
+        std::plus<double>(),
+        [](const double trait, const double abundance) { return trait * trait * abundance; }
+      );
+
+    const double sa = static_cast<double>(GetSumAbundances());
+    trait_variance = ((sa/(sa-1.0)) * ((sipst/sa)-((sip/sa)*(sip/sa))));
   }
-  else
-  {
-    return 0;
-  }
+  return trait_variance;
 }
 
 void Species::Setup(long abund_in, long c_in) noexcept
