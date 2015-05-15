@@ -9,19 +9,18 @@ struct Species
 {
   Species();
 
-  void Add(const Species& x);
+  void Add(const Species& x) noexcept;
 
-  void Clear();
+  void Clear() noexcept;
 
-  long GetNumberOfSpecies();
+  long GetNumberOfSpecies() const noexcept;
+  long GetSumAbundances() const noexcept;
+  double GetTraitMean() const noexcept;
+  long GetTraitMin() const noexcept;
+  long GetTraitMax() const noexcept;
+  double GetTraitVariance() const noexcept;
 
-  long GetSumAbundances();
-  double GetTraitMean();
-  long GetTraitMin();
-  long GetTraitMax();
-  double GetTraitVariance();
-
-  void Setup(long abund_in, long c_in);
+  void Setup(long abund_in, long c_in) noexcept;
 
 private:
 
@@ -40,10 +39,10 @@ private:
   std::vector<long> m_abundances; //Number of individuals
 
   const std::vector<long>& GetAbundances() const noexcept { return m_abundances; }
-  double GetTraitMeanOld();
-  long GetTraitMaxOld();
-  long GetTraitMinOld();
-  double GetTraitVarianceOld();
+  double GetTraitMeanOld() const noexcept;
+  long GetTraitMaxOld() const noexcept;
+  long GetTraitMinOld() const noexcept;
+  double GetTraitVarianceOld() const noexcept;
   const std::vector<long>& GetTraits() const noexcept { return m_traits; }
 };
 

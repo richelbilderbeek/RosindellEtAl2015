@@ -10,7 +10,7 @@ Species::Species()
 
 }
 
-void Species::Add(const Species& x)
+void Species::Add(const Species& x) noexcept
 {
   std::vector<long> abundances = x.GetAbundances();
   std::vector<long> traits = x.GetTraits();
@@ -19,14 +19,14 @@ void Species::Add(const Species& x)
   std::copy(std::begin(traits),std::end(traits),std::back_inserter(m_traits));
 }
 
-void Species::Clear()
+void Species::Clear() noexcept
 {
   m_traits.clear();
   m_abundances.clear();
 }
 
 
-long Species::GetNumberOfSpecies()
+long Species::GetNumberOfSpecies() const noexcept
 {
   //TODO: Can one not assume that abundances are above zero?
 
@@ -38,13 +38,13 @@ long Species::GetNumberOfSpecies()
   return n;
 }
 
-long Species::GetSumAbundances()
+long Species::GetSumAbundances() const noexcept
 {
   const auto sum = std::accumulate(std::begin(m_abundances),std::end(m_abundances),0);
   return sum;
 }
 
-long Species::GetTraitMax()
+long Species::GetTraitMax() const noexcept
 {
   const auto trait_max = GetTraitMaxOld();
   const auto trait_max_old = GetTraitMaxOld();
@@ -52,7 +52,7 @@ long Species::GetTraitMax()
   return trait_max;
 }
 
-long Species::GetTraitMaxOld()
+long Species::GetTraitMaxOld() const noexcept
 {
   if (m_traits.size() > 0)
   {
@@ -72,7 +72,7 @@ long Species::GetTraitMaxOld()
   }
 }
 
-long Species::GetTraitMin()
+long Species::GetTraitMin() const noexcept
 {
   const auto trait_min = GetTraitMinOld();
   const auto trait_min_old = GetTraitMinOld();
@@ -80,7 +80,7 @@ long Species::GetTraitMin()
   return trait_min;
 }
 
-long Species::GetTraitMinOld()
+long Species::GetTraitMinOld() const noexcept
 {
   if (m_traits.size() > 0)
   {
@@ -100,7 +100,7 @@ long Species::GetTraitMinOld()
   }
 }
 
-double Species::GetTraitMean()
+double Species::GetTraitMean() const noexcept
 {
   const double trait_mean = GetTraitMeanOld();
   const double trait_mean_old = GetTraitMeanOld();
@@ -108,7 +108,7 @@ double Species::GetTraitMean()
   return trait_mean;
 }
 
-double Species::GetTraitMeanOld()
+double Species::GetTraitMeanOld() const noexcept
 {
   if ((m_traits.size() > 0)&&(GetSumAbundances() > 0))
   {
@@ -125,7 +125,7 @@ double Species::GetTraitMeanOld()
   }
 }
 
-double Species::GetTraitVariance()
+double Species::GetTraitVariance() const noexcept
 {
   const double trait_variance = GetTraitVarianceOld();
   const double trait_variance_old = GetTraitVarianceOld();
@@ -133,7 +133,7 @@ double Species::GetTraitVariance()
   return trait_variance;
 }
 
-double Species::GetTraitVarianceOld()
+double Species::GetTraitVarianceOld() const noexcept
 {
   if ((m_traits.size() > 1)&&(GetSumAbundances() > 1))
   {
@@ -153,7 +153,7 @@ double Species::GetTraitVarianceOld()
   }
 }
 
-void Species::Setup(long abund_in, long c_in)
+void Species::Setup(long abund_in, long c_in) noexcept
 {
   Clear();
   m_abundances.push_back(abund_in);
