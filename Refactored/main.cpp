@@ -1,12 +1,16 @@
 // Code for the article
+//
 //   Rosindell, James, Luke J. Harmon, and Rampal S. Etienne.
 //   "Unifying ecology and macroevolution with individual‐based theory."
 //   Ecology letters 18.5 (2015): 472-482.
 //
+//
+// Original version:
+//   Version 1.2 Jan 2014
+//   Author: James Rosindell
+//
+// Refactoring by Richel Bilderbeek
 
-// Refactored from
-// Version 1.2 Jan 2014
-// Author James Rosindell james@rosindell.org
 
 // NNIM = nearly neutral individual mutations
 

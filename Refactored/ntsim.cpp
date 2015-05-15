@@ -664,13 +664,13 @@ void NTsim::output()
           temp_num_subspec += (double(final_spec[i].GetNumberOfSpecies()));
           temp_tot_abund += (double(final_spec[i].GetSumAbundances()));
 
-          temp_meanc += (double(final_spec[i].GetMeanTrait()));
-          temp_varc += (double(final_spec[i].get_varc()));
-          temp_rangec += (double(final_spec[i].get_maxc()-final_spec[i].get_minc()));
+          temp_meanc += (double(final_spec[i].GetTraitMean()));
+          temp_varc += (double(final_spec[i].GetTraitVariance()));
+          temp_rangec += (double(final_spec[i].GetTraitMax()-final_spec[i].GetTraitMin()));
 
-          temp_meanc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetMeanTrait()));
-          temp_varc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].get_varc()));
-          temp_rangec_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].get_maxc()-final_spec[i].get_minc()));
+          temp_meanc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetTraitMean()));
+          temp_varc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetTraitVariance()));
+          temp_rangec_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetTraitMax()-final_spec[i].GetTraitMin()));
 
         }
 
