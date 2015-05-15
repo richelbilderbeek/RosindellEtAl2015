@@ -29,3 +29,7 @@
 *.pro.user
 /build-RosindellEtAl2015-Desktop-Debug/*
 /build-RosindellEtAl2015-Desktop-Release/*
+/build-RosindellEtAl2015Console-Desktop-Debug/*
+/build-RosindellEtAl2015Console-Desktop-Release/*
+/build-RosindellEtAl2015Desktop-Desktop-Debug/*
+/build-RosindellEtAl2015Desktop-Desktop-Release/*

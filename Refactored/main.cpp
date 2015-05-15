@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
       << "simulating M with fitness increase or decrease ... "
       << std::endl
     ;
-    test.sim_all(2 , 10000 , 0.05 , 0.001 , 60);
+    test.sim_all(2,10000,0.05,0.001,60);
     test.write_files();
   }
 

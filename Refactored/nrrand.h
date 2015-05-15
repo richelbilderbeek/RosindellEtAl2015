@@ -30,71 +30,68 @@ class NRrand
 {
 
 private:
-  long idum;
-  long j;
-  long k;
-  long idum2;
-  long iy;
-  long iv[NTAB];
-  bool seeded;
+  long m_idum;
+  long m_j;
+  long m_k;
+  long m_idum2;
+  long m_iy;
+  long m_iv[NTAB];
+  bool m_seeded;
 
-  double temp;
+  double m_temp;
 
 public:
 
-  NRrand()
-  {
-    seeded = false;
-  }
+  NRrand();
 
   void set_seed(long seed)
   {
-    if (!seeded)
+    if (!m_seeded)
     {
-      idum2 = 123456789;
-      iy = 0;
-      idum = seed;
-      if (idum < 1) idum=1;
+      m_idum2 = 123456789;
+      m_iy = 0;
+      m_idum = seed;
+      if (m_idum < 1) m_idum=1;
       //Be sure to prevent idum = 0.
-      idum2=(idum);
-      for (j=NTAB+7;j>=0;j--)
+      m_idum2=(m_idum);
+      for (m_j=NTAB+7;m_j>=0;m_j--)
       {
         //Load the shuffle table (after 8 warm-ups).
-        k=(idum)/IQ1;
-        idum=IA1*(idum-k*IQ1)-k*IR1;
-        if (idum < 0) idum += IM1;
-        if (j < NTAB) iv[j] = idum;
+        m_k=(m_idum)/IQ1;
+        m_idum=IA1*(m_idum-m_k*IQ1)-m_k*IR1;
+        if (m_idum < 0) m_idum += IM1;
+        if (m_j < NTAB) m_iv[m_j] = m_idum;
       }
-      iy=iv[0];
-      seeded = true;
+      m_iy=m_iv[0];
+      m_seeded = true;
     }
   }
 
   double d01()
   {
-    k=(idum)/IQ1;
+    m_k=(m_idum)/IQ1;
     //Start here when not initializing.
-    idum=IA1*(idum-k*IQ1)-k*IR1;
+    m_idum=IA1*(m_idum-m_k*IQ1)-m_k*IR1;
     //Compute idum=(IA1*idum) % IM1 without overflows by Schrage's method.
-    if (idum < 0) idum += IM1;
-    k=idum2/IQ2;
-    idum2=IA2*(idum2-k*IQ2)-k*IR2;
+    if (m_idum < 0) m_idum += IM1;
+    m_k=m_idum2/IQ2;
+    m_idum2=IA2*(m_idum2-m_k*IQ2)-m_k*IR2;
     //Compute idum2=(IA2*idum) % IM2 likewise.
-    if (idum2 < 0) idum2 += IM2;
-    j=iy/NDIV;
+    if (m_idum2 < 0) m_idum2 += IM2;
+    m_j=m_iy/NDIV;
     //Will be in the range 0..NTAB-1.
-    iy=iv[j]-idum2;
+    m_iy=m_iv[m_j]-m_idum2;
     //Here idum is shuffled, idum and idum2 are combined to generate output.
-    iv[j] = idum;
-    if (iy < 1) iy += IMM1;
-    if ((temp=AM*iy) > RNMX)
+    m_iv[m_j] = m_idum;
+    if (m_iy < 1) m_iy += IMM1;
+    if ((m_temp=AM*m_iy) > RNMX)
     {
       //cout << "random call = " << "RNMAX" << "\n";
       return RNMX; //Because users don't expect endpoint values.
     }
     else
     {
-      return temp;
+      return m_temp;
     }
   }
 
@@ -134,17 +131,17 @@ public:
   {
     std::vector<long> toret;
     toret.clear();
-    if (seeded)
+    if (m_seeded)
     {
-      toret.push_back(idum);
-      toret.push_back(j);
-      toret.push_back(k);
-      toret.push_back(idum2);
-      toret.push_back(iy);
+      toret.push_back(m_idum);
+      toret.push_back(m_j);
+      toret.push_back(m_k);
+      toret.push_back(m_idum2);
+      toret.push_back(m_iy);
 
       for (int i = 0 ; i < NTAB ; ++i)
       {
-        toret.push_back(iv[i]);
+        toret.push_back(m_iv[i]);
       }
       // we assume the system is seeded if we are suspending and resuming
     }
@@ -153,17 +150,17 @@ public:
 
   void resume(std::vector<long> datain)
   {
-    seeded = true;
+    m_seeded = true;
     if (datain.size() == (5+NTAB))
     {
-      idum = datain[0];
-      j = datain[1];
-      k = datain[2];
-      idum2 = datain[3];
-      iy = datain[4];
+      m_idum = datain[0];
+      m_j = datain[1];
+      m_k = datain[2];
+      m_idum2 = datain[3];
+      m_iy = datain[4];
       for (int i = 5 ; i < NTAB+5 ; ++i)
       {
-        iv[i-5] = datain[i];
+        m_iv[i-5] = datain[i];
       }
     }
     else
