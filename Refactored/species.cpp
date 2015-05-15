@@ -5,7 +5,7 @@
 #include <fstream>
 
 Species::Species()
-  : m_traits{},
+  : m_fitnesses{},
     m_abundances{}
 {
 
@@ -14,15 +14,15 @@ Species::Species()
 void Species::Add(const Species& x) noexcept
 {
   const auto& abundances = x.GetAbundances();
-  const auto& traits = x.GetTraits();
-  assert(x.GetAbundances().size() == x.GetTraits().size());
+  const auto& fitnesses = x.GetFitnesses();
+  assert(x.GetAbundances().size() == x.GetFitnesses().size());
   std::copy(std::begin(abundances),std::end(abundances),std::back_inserter(m_abundances));
-  std::copy(std::begin(traits),std::end(traits),std::back_inserter(m_traits));
+  std::copy(std::begin(fitnesses),std::end(fitnesses),std::back_inserter(m_fitnesses));
 }
 
 void Species::Clear() noexcept
 {
-  m_traits.clear();
+  m_fitnesses.clear();
   m_abundances.clear();
 }
 
@@ -44,71 +44,71 @@ long Species::GetSumAbundances() const noexcept
   return sum;
 }
 
-long Species::GetTraitMax() const noexcept
+long Species::GetFitnessMax() const noexcept
 {
-  const auto trait_max = *std::max_element(std::begin(m_traits),std::end(m_traits));
-  return trait_max;
+  const auto fitness_max = *std::max_element(std::begin(m_fitnesses),std::end(m_fitnesses));
+  return fitness_max;
 }
 
-long Species::GetTraitMin() const noexcept
+long Species::GetFitnessMin() const noexcept
 {
-  const auto trait_min = *std::min_element(std::begin(m_traits),std::end(m_traits));
-  return trait_min;
+  const auto fitness_min = *std::min_element(std::begin(m_fitnesses),std::end(m_fitnesses));
+  return fitness_min;
 }
 
-double Species::GetTraitMean() const noexcept
+double Species::GetFitnessMean() const noexcept
 {
-  assert(m_traits.size() == m_abundances.size());
-  //SUM(trait * abunance)
-  const double trait_sum_inner_product =
+  assert(m_fitnesses.size() == m_abundances.size());
+  //SUM(fitness * abunance)
+  const double fitness_sum_inner_product =
     std::inner_product(
-      std::begin(m_traits),
-      std::end(m_traits),
+      std::begin(m_fitnesses),
+      std::end(m_fitnesses),
       std::begin(m_abundances),
       0.0
     );
-  const double trait_mean
-    = trait_sum_inner_product
+  const double fitness_mean
+    = fitness_sum_inner_product
     / static_cast<double>(GetSumAbundances())
   ;
-  return trait_mean;
+  return fitness_mean;
 }
 
-double Species::GetTraitVariance() const noexcept
+double Species::GetFitnessVariance() const noexcept
 {
   const double numr = double(GetSumAbundances());
 
   //TODO: This can be shortened after adding higher-level tests
-  double trait_variance = 0.0;
-  if (m_traits.size() > 1 && numr > 1)
+  double fitness_variance = 0.0;
+  if (m_fitnesses.size() > 1 && numr > 1)
   {
     //We can calculate a variance
     const double sip = //Sum of Inner Product
       std::inner_product(
-        std::begin(m_traits),
-        std::end(m_traits),
+        std::begin(m_fitnesses),
+        std::end(m_fitnesses),
         std::begin(m_abundances),
         0.0
       );
-    const double sipst = //Sum of Inner Product with squared traits
+    const double sipst = //Sum of Inner Product with squared fitnesses
       std::inner_product(
-        std::begin(m_traits),
-        std::end(m_traits),
+        std::begin(m_fitnesses),
+        std::end(m_fitnesses),
         std::begin(m_abundances),
         0.0,
         std::plus<double>(),
-        [](const double trait, const double abundance) { return trait * trait * abundance; }
+        [](const double fitness, const double abundance) { return fitness * fitness * abundance; }
       );
 
     const double sa = static_cast<double>(GetSumAbundances());
-    trait_variance = ((sa/(sa-1.0)) * ((sipst/sa)-((sip/sa)*(sip/sa))));
+    fitness_variance = ((sa/(sa-1.0)) * ((sipst/sa)-((sip/sa)*(sip/sa))));
   }
-  return trait_variance;
+  return fitness_variance;
 }
 
 void Species::Setup(long abund_in, long c_in) noexcept
 {
   Clear();
   m_abundances.push_back(abund_in);
-  m_traits.push_back(c_in);
+  m_fitnesses.push_back(c_in);
 }

@@ -15,7 +15,7 @@ NTsim::NTsim()
 
 
 
-void NTsim::output()
+void NTsim::output() const
 {
   // std::cout << "outputting \n";
 
@@ -608,13 +608,13 @@ void NTsim::output()
           temp_num_subspec += (double(final_spec[i].GetNumberOfSpecies()));
           temp_tot_abund += (double(final_spec[i].GetSumAbundances()));
 
-          temp_meanc += (double(final_spec[i].GetTraitMean()));
-          temp_varc += (double(final_spec[i].GetTraitVariance()));
-          temp_rangec += (double(final_spec[i].GetTraitMax()-final_spec[i].GetTraitMin()));
+          temp_meanc += (double(final_spec[i].GetFitnessMean()));
+          temp_varc += (double(final_spec[i].GetFitnessVariance()));
+          temp_rangec += (double(final_spec[i].GetFitnessMax()-final_spec[i].GetFitnessMin()));
 
-          temp_meanc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetTraitMean()));
-          temp_varc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetTraitVariance()));
-          temp_rangec_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetTraitMax()-final_spec[i].GetTraitMin()));
+          temp_meanc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetFitnessMean()));
+          temp_varc_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetFitnessVariance()));
+          temp_rangec_w += (double(final_spec[i].GetSumAbundances())*double(final_spec[i].GetFitnessMax()-final_spec[i].GetFitnessMin()));
 
         }
 
@@ -772,12 +772,12 @@ void NTsim::setup(long seedin , long J_M_in , double mu_in , double s_in)
   set_seed(seedin);
 
   // Set simulation parmaeters correcty first
-  J_M = J_M_in;
+  m_metacommunity_size = J_M_in;
   mu = mu_in;
   s = s_in;
 
   // setup metacommunity
-  for (long i = 0 ; i < J_M ; ++i)
+  for (long i = 0 ; i < m_metacommunity_size ; ++i)
   {
     metacommunity.push_back(upto);
   }
@@ -785,22 +785,22 @@ void NTsim::setup(long seedin , long J_M_in , double mu_in , double s_in)
   richness = 1;
 
   // setup burnin counting variables
-  for (long i = 0 ; i < J_M ; ++i)
+  for (long i = 0 ; i < m_metacommunity_size ; ++i)
   {
     init_ancestor.push_back(i);
     num_descend.push_back(1);
   }
-  num_remain = J_M;
+  num_remain = m_metacommunity_size;
 
   // species level data std::vectors to be set with initial conditions
-  abundances.push_back(J_M);
+  abundances.push_back(m_metacommunity_size);
   parents.push_back(-1);
   born.push_back(0.0);
   died.push_back(-1.0);
   selection_level.push_back(0);
   num_mut.push_back(0); // %^&
 
-  max_abundance.push_back(J_M);
+  max_abundance.push_back(m_metacommunity_size);
   maxabtime1.push_back(0.0);
   maxabtime2.push_back(0.0);
 
@@ -904,7 +904,7 @@ void NTsim::sim_all(long seedin , long J_M_in , double mu_in , double s_in , dou
   output();
 }
 
-void NTsim::sim_restore(char* fnamein,double simtime)
+void NTsim::sim_restore(const char * const  fnamein, const double simtime)
 {
   std::cout << "restoring NNIM from " << fnamein << "\n";
   std::ifstream in;
@@ -912,7 +912,7 @@ void NTsim::sim_restore(char* fnamein,double simtime)
 
   // scalars
 
-  in >> J_M ;
+  in >> m_metacommunity_size ;
   in >> mu ;
   in >> s ;
   in >> num_suspends ;
@@ -1135,12 +1135,12 @@ void NTsim::sim_step()
 {
 
   // increment generation counter
-  generation += 2.0/J_M;
-  true_generation += 2.0/J_M;
+  generation += 2.0/m_metacommunity_size;
+  true_generation += 2.0/m_metacommunity_size;
 
   // choose individual to die (and be replaced)
   long chosen2;
-  chosen2 = NR.i0(J_M-1);
+  chosen2 = NR.i0(m_metacommunity_size-1);
 
   // decide if speciation happened
   bool speciation = false;
@@ -1155,7 +1155,7 @@ void NTsim::sim_step()
   while(repeat_selection)
   {
     // keep going until selection criteria are satisfied
-    chosen = NR.i0(J_M-1);
+    chosen = NR.i0(m_metacommunity_size-1);
     if (chosen != chosen2)
     {
       if (s > 0)
@@ -1414,7 +1414,7 @@ void NTsim::total_clear()
 
 
 
-void NTsim::write_files()
+void NTsim::write_files() const
 {
   std::cout << "writing files \n";
 
@@ -1496,7 +1496,7 @@ void NTsim::write_files()
     sprintf (filename_vars, "Data_%i_FV_Vars.txt", int(the_seed));
     out.open(filename_vars);
     out << the_seed << " \n";
-    out << J_M << " \n";
+    out << m_metacommunity_size << " \n";
     out << mu << " \n";
     out << s << " \n";
     out.close();
@@ -1513,7 +1513,7 @@ void NTsim::write_files()
 
   // scalars
 
-  out << J_M << " ";
+  out << m_metacommunity_size << " ";
   out << mu << " ";
   out << s << " ";
   out << num_suspends << " ";

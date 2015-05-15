@@ -16,23 +16,34 @@ struct NTsim {
   NTsim();
 
   void set_seed(long seedin);
-  void setup(long seedin , long J_M_in , double mu_in , double s_in);
+  void setup(
+    const long seedin,
+    const long J_M_in,
+    const double mu_in,
+    const double s_in
+  );
 
   // this function simulates a set of parameters for a set time and gets as many results as it can
   // all these reults are dropped in a common file named based on the seed and parameter compbination
   // the time is measured in minutes
-  void sim_all(long seedin , long J_M_in , double mu_in , double s_in , double simtime);
+  void sim_all(
+    const long seedin,
+    const long J_M_in,
+    const double mu_in,
+    const double s_in,
+    const double simtime
+  );
 
-  void sim_restore(char* fnamein,double simtime);
+  void sim_restore(const char* const fnamein, const double simtime);
   void sim_step();
 
   void total_clear();
 
   // this function outputs the data including calculating the fitness variation data
   // it also sorts it so that no longer relevant parts are thrown out.
-  void output();
+  void output() const;
 
-  void write_files();
+  void write_files() const;
 
   #ifndef NDEBUG
   static void Test() noexcept;
@@ -42,8 +53,9 @@ private:
 
   // *** simulation parameters ***
 
-  long J_M;
-  // metacommunity size
+  ///The size of the metacommunity size
+  ///Symbol used in article: J_M
+  long m_metacommunity_size;
   double mu;
   // mutation rate (not the speciation rate any more) %^&
   double s;
@@ -53,14 +65,14 @@ private:
 
   // *** suspend / resume variables ***
 
-  long num_suspends;
+  mutable long num_suspends;
   // the number of times this simulation has been suspended before
-  long num_file_outputs;
+  mutable long num_file_outputs;
   // the number of times this simulation has yielded file outputs
 
   // *** general simulation data ***
 
-  double generation;
+  mutable double generation;
   // current generation relative to others
   double true_generation;
   // the true number of generations since the simulation started
@@ -77,9 +89,9 @@ private:
 
   long upto;
   // what number are we up to with species labeling
-  std::vector<long> recycler;
+  mutable std::vector<long> recycler;
   // a list of indices in the per-species data that can now be used because the species are extinct
-  long end_recycler;
+  mutable long end_recycler;
   // the end of the recycler std::vector (in case it is required to contract) so it's equal to 0 when recyler is empty
 
   // *** burn in checker and per individual data - becomes irrelevant after first output ***
@@ -98,35 +110,35 @@ private:
 
   // *** per-species simulation data ***
 
-  std::vector<long> abundances;
+  mutable std::vector<long> abundances;
   // the abundnance of each species
-  std::vector<long> parents;
+  mutable std::vector<long> parents;
   // the parent species for each species
-  std::vector<double> born;
+  mutable std::vector<double> born;
   // the date of species birth for each species
-  std::vector<double> died;
+  mutable std::vector<double> died;
   // the date of species death for each species (-1 means not dead)
-  std::vector<long> selection_level;
+  mutable std::vector<long> selection_level;
   // the selection level of each species (larger numbers mean greater advantage)
-  std::vector<long> num_mut;
+  mutable std::vector<long> num_mut;
   // number of mutations along the branch that connects this to the parent node, these could be positive or negative mutations
 
-  std::vector<long> max_abundance;
+  mutable std::vector<long> max_abundance;
   // the maximum abundance ever experienced by this species
-  std::vector<double> maxabtime1;
+  mutable std::vector<double> maxabtime1;
   // the earliest date when that maximum abundance was hit
-  std::vector<double> maxabtime2;
+  mutable std::vector<double> maxabtime2;
   // the latest date when that maximum abundance was hit
 
-  std::vector<long> num_descend_spec;
+  mutable std::vector<long> num_descend_spec;
   // the number of species (lineages) that descend from this lineage and are still alive (including the species itself if it's still alive, not if it's dead)
 
-  long iter; // keeps count of the output lines
-  long iter2; // keeps count of number output lines from this current simulation only
+  mutable long iter; // keeps count of the output lines
+  mutable long iter2; // keeps count of number output lines from this current simulation only
 
   // *** random number generator ***
 
-  NRrand NR;
+  mutable NRrand NR;
   // generator object
   bool seeded;
   // is it seeded
@@ -139,48 +151,48 @@ private:
   // there will be four files: newick, out, res, vars and fitvar
 
   // newick
-  std::vector<std::string> FILE_final_newick;
+  mutable std::vector<std::string> FILE_final_newick;
 
   // out (per species)
 
   // header of the filal file will read
   // generation,iname,iname2,index,abundances,parents,born,died,selection_level,num_mut,max_abundance,maxabtime1,maxabtime2,num_descend_spec,divergence_date,relgen,tage,page
 
-  std::vector<double> FILE_generation;
-  std::vector<std::string> FILE_iname;
-  std::vector<long> FILE_iname2;
-  std::vector<long> FILE_index;
-  std::vector<long> FILE_abundances;
-  std::vector<long> FILE_parents;
-  std::vector<double> FILE_born;
-  std::vector<double> FILE_died;
-  std::vector<long> FILE_selection_level;
-  std::vector<long> FILE_num_mut;
-  std::vector<long> FILE_max_abundance;
-  std::vector<double> FILE_maxabtime1;
-  std::vector<double> FILE_maxabtime2;
-  std::vector<long> FILE_num_descend_spec;
-  std::vector<double> FILE_divergence_date;
-  std::vector<double> FILE_relgen;
-  std::vector<double> FILE_tage;
-  std::vector<double> FILE_page;
+  mutable std::vector<double> FILE_generation;
+  mutable std::vector<std::string> FILE_iname;
+  mutable std::vector<long> FILE_iname2;
+  mutable std::vector<long> FILE_index;
+  mutable std::vector<long> FILE_abundances;
+  mutable std::vector<long> FILE_parents;
+  mutable std::vector<double> FILE_born;
+  mutable std::vector<double> FILE_died;
+  mutable std::vector<long> FILE_selection_level;
+  mutable std::vector<long> FILE_num_mut;
+  mutable std::vector<long> FILE_max_abundance;
+  mutable std::vector<double> FILE_maxabtime1;
+  mutable std::vector<double> FILE_maxabtime2;
+  mutable std::vector<long> FILE_num_descend_spec;
+  mutable std::vector<double> FILE_divergence_date;
+  mutable std::vector<double> FILE_relgen;
+  mutable std::vector<double> FILE_tage;
+  mutable std::vector<double> FILE_page;
 
   // res and vars are based on overall sim parameters at end of sim and don't need to be saved.
 
   // fitvar shows the fitness variation overall and within each species for a variety of differnet values of n
   // header of the final file will read: generation_var, meanc_all , varc_all , n , num_subspec , meanc , varc , maxc , minc
 
-  std::vector<double> FILE_generation_var; // will line up with the variance output rows for frequency of output here
-  std::vector<long> FILE_n; // value of n that applies for the rest of the readings (the first three above will probably repeat a lot)
-  std::vector<long> FILE_n_richness; // the species richness overall at this value of n
-  std::vector<double> FILE_num_subspec; // number of sub species - average over all species
-  std::vector<double> FILE_tot_abund; // total abundance of all sub species - average over all species
-  std::vector<double> FILE_meanc; // mean value of c - (within species) average over all species
-  std::vector<double> FILE_varc; // variange in c - (within species) average over all species
-  std::vector<double> FILE_rangec; // range in value of c - (within species) average over all species
-  std::vector<double> FILE_meanc_w; // mean value of c - (within species) weighted average over all species
-  std::vector<double> FILE_varc_w; // variange in c - (within species) weighted average over all species
-  std::vector<double> FILE_rangec_w; // range in value of c - (within species) weighted average over all species
+  mutable std::vector<double> FILE_generation_var; // will line up with the variance output rows for frequency of output here
+  mutable std::vector<long> FILE_n; // value of n that applies for the rest of the readings (the first three above will probably repeat a lot)
+  mutable std::vector<long> FILE_n_richness; // the species richness overall at this value of n
+  mutable std::vector<double> FILE_num_subspec; // number of sub species - average over all species
+  mutable std::vector<double> FILE_tot_abund; // total abundance of all sub species - average over all species
+  mutable std::vector<double> FILE_meanc; // mean value of c - (within species) average over all species
+  mutable std::vector<double> FILE_varc; // variange in c - (within species) average over all species
+  mutable std::vector<double> FILE_rangec; // range in value of c - (within species) average over all species
+  mutable std::vector<double> FILE_meanc_w; // mean value of c - (within species) weighted average over all species
+  mutable std::vector<double> FILE_varc_w; // variange in c - (within species) weighted average over all species
+  mutable std::vector<double> FILE_rangec_w; // range in value of c - (within species) weighted average over all species
 
 };
 
