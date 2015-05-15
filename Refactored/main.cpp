@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     test.sim_all(2 , 10000 , 0.05 , 0.001 , 60);
     test.write_files();
   }
-  //assert(!"DONE");
+
   // first get the command line arg data in
   const long task_iter = argc > 1 ? std::stoi(argv[1]) - 1 : 3;
   double task_max = argc > 2 ? std::stof(argv[2]) : 1; // the max time (minutes)
@@ -84,11 +84,11 @@ int main(int argc, char* argv[])
   std::vector<double> nu_list;
   std::vector<double> S_list;
 
-  for (int i = 0 ; i < JM_vect.size() ; ++i)
+  for (unsigned int i = 0 ; i < JM_vect.size() ; ++i)
   {
-    for (int j = 0 ; j < nu_vect.size() ; j ++)
+    for (unsigned int j = 0 ; j < nu_vect.size() ; j ++)
     {
-      for (int k = 0 ; k < S_vect.size() ; k ++)
+      for (unsigned int k = 0 ; k < S_vect.size() ; k ++)
       {
         JM_list.push_back(JM_vect[i]);
         nu_list.push_back(nu_vect[j]);
@@ -97,21 +97,21 @@ int main(int argc, char* argv[])
     }
   }
 
-  NTsim test;
+  NTsim sim;
 
   if (argc == 4)
   {
     // restore
-    test.sim_restore(argv[3],60*task_max);
+    sim.sim_restore(argv[3],60*task_max);
   }
   else
   {
     std::cout << "simulating M with fitness increase or decrease ... ";
     std::cout << JM_list[task_iter] << " , " << nu_list[task_iter] << " , " <<  S_list[task_iter] << " \n";
 
-    test.sim_all(task_iter+10000 , JM_list[task_iter] , nu_list[task_iter] , S_list[task_iter] , 60*task_max);
+    sim.sim_all(task_iter+10000 , JM_list[task_iter] , nu_list[task_iter] , S_list[task_iter] , 60*task_max);
   }
-  test.write_files();
+  sim.write_files();
 }
 
 // notes: copy files to $WORK where there is 150 gb of storage available

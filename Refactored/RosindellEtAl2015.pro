@@ -14,8 +14,8 @@ macx {
 unix:!macx{
   # Linux only
   message("Console application, built for Linux")
-  #QMAKE_CXXFLAGS += -Werror
-  QMAKE_CXXFLAGS += -std=c++1y #-Wall -Wextra
+  QMAKE_CXXFLAGS += -Werror
+  QMAKE_CXXFLAGS += -std=c++1y -Wall -Wextra
 }
 
 cross_compile {
@@ -56,9 +56,11 @@ SOURCES += main.cpp \
     nrrand.cpp \
     ntsim.cpp \
     ntsim_test.cpp \
-    species.cpp
+    species.cpp \
+    helper.cpp
 
 HEADERS += \
     nrrand.h \
     ntsim.h \
-    species.h
+    species.h \
+    helper.h

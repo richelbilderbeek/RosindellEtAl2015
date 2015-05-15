@@ -6,7 +6,7 @@
 #include <sstream>
 #include <vector>
 #include "nrrand.h"
-#include "species_obj.h"
+#include "species.h"
 
 /************************************************************
  NEUTRAL SIMULATION OBJECT
@@ -14,11 +14,6 @@
 
 struct NTsim {
   NTsim();
-
-  // a set of tools for converting numbers to letters for species names in phylogenies
-  std::string alpha_format(long x);
-  std::string alpha_format_auto(long x_in);
-  std::string alpha_format(long x_in, int num_digits);
 
   void set_seed(long seedin);
   void setup(long seedin , long J_M_in , double mu_in , double s_in);

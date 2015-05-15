@@ -1,5 +1,9 @@
 #include "ntsim.h"
 
+#include <cassert>
+
+#include "helper.h"
+
 NTsim::NTsim()
 {
   total_clear();
@@ -9,57 +13,14 @@ NTsim::NTsim()
   num_file_outputs = 0;
 }
 
-std::string NTsim::alpha_format(long x)
-{
-  const char c = 'A' + x;
-  return std::string(1,c);
-}
-
-
-std::string NTsim::alpha_format(long x_in, int num_digits)
-{
-  std::string alpha_res;
-  alpha_res = "";
-  long x;
-  x = x_in;
-  if (pow(26.0,double(num_digits)) >= x)
-  {
-    for (int i = 0 ; i < num_digits ; ++i)
-    {
-      long remainder = (x % 26);
-      alpha_res = alpha_format(remainder) + alpha_res;
-      x -= remainder;
-      x = x/26;
-    }
-  }
-  else
-  {
-    alpha_res = "_ERROR_";
-  }
-  return alpha_res;
-}
-
-std::string NTsim::alpha_format_auto(long x_in)
-{
-  long upto = 25;
-  long num_digits = 1;
-  long x = x_in;
-  while (upto < x_in)
-  {
-    x -= long(floor(pow(26.0,num_digits)));
-    num_digits ++;
-    upto += long(floor(pow(26.0,num_digits)));
-  }
-  return (alpha_format(x,num_digits));
-}
 
 
 void NTsim::output()
 {
   // std::cout << "outputting \n";
 
-  bool output_phy = true; // output the phylogeny?
-  bool output_var = true; // output the variance?
+  const bool output_phy = true; // output the phylogeny?
+  const bool output_var = true; // output the variance?
 
   // first of all work out if each line should appear in the final output
   // extinct species that were not a most recent common ancestor between two species are not outputted
@@ -71,13 +32,13 @@ void NTsim::output()
   keep_data.clear();
   divergence_date.clear();
   intermediate_parents.clear();
-  for (int i = 0 ; i < parents.size() ; ++i)
+  for (unsigned int i = 0 ; i < parents.size() ; ++i)
   {
     keep_data.push_back(true);
     divergence_date.push_back(-1.0);
     intermediate_parents.push_back(parents[i]);
   }
-  for (int i = 0 ; i < parents.size() ; ++i)
+  for (unsigned int i = 0 ; i < parents.size() ; ++i)
   {
     if (abundances[i] < 0)
     {
@@ -113,7 +74,7 @@ void NTsim::output()
   std::vector<long> newi;
   newi.clear();
 
-  for (int i = 0 ; i < parents.size() ; ++i)
+  for (unsigned int i = 0 ; i < parents.size() ; ++i)
   {
     if (keep_data[i])
     {
@@ -130,7 +91,7 @@ void NTsim::output()
   std::vector<long> newi2; // counts from 1 up in each simulation on its own
   newi2.clear();
 
-  for (int i = 0 ; i < parents.size() ; ++i)
+  for (unsigned int i = 0 ; i < parents.size() ; ++i)
   {
     if (keep_data[i])
     {
@@ -169,7 +130,7 @@ void NTsim::output()
   if (output_phy)
   {
 
-    for (int i = 0 ; i < parents.size() ; ++i)
+    for (unsigned int i = 0 ; i < parents.size() ; ++i)
     {
       std::string temps = "";
       std::vector<std::string> tempvs;
@@ -191,7 +152,7 @@ void NTsim::output()
       page.push_back(-2);
     }
 
-    for (int i = 0 ; i < parents.size() ; ++i)
+    for (unsigned int i = 0 ; i < parents.size() ; ++i)
     {
       if (abundances[i] > 0) // automatically excludes any lineages that might not be kept
       {
@@ -214,7 +175,7 @@ void NTsim::output()
     {
 
       keep_looping = false;
-      for (long i = 0 ; i < parents.size() ; ++i)
+      for (unsigned long i = 0 ; i < parents.size() ; ++i)
       {
         // check if we're done
         if ((num_descend_done[i] >= 0)&&(keep_data[i])) // num_descend done goes negative when we're done
@@ -232,7 +193,7 @@ void NTsim::output()
               while(unsorted)
               {
                 unsorted = false;
-                for (int j = 1 ; j < (newick_parts[i]).size() ; j ++)
+                for (unsigned int j = 1 ; j < (newick_parts[i]).size() ; j ++)
                 {
                   if (join_dates[i][j-1] > join_dates[i][j])
                   {
@@ -275,7 +236,7 @@ void NTsim::output()
 
               if((newick_parts[i]).size() >2)
               {
-                for (int j = 0 ; j < ((newick_parts[i]).size()-2) ; j ++)
+                for (unsigned int j = 0 ; j < ((newick_parts[i]).size()-2) ; j ++)
                 {
                   ss2 << newick_parts[i][j] << ":" << last_split_dates[i][j] - join_dates[i][j] << ",(";
                 }
@@ -323,7 +284,7 @@ void NTsim::output()
     }
 
 
-    for (long i = 0 ; i < parents.size() ; ++i)
+    for (unsigned long i = 0 ; i < parents.size() ; ++i)
     {
       if (abundances[i] > 0)
       {
@@ -454,7 +415,7 @@ void NTsim::output()
 
 
       // now we fill all these std::vectors with their initial conditions.
-      for (long i = 0 ; i < abundances.size() ; ++i)
+      for (unsigned long i = 0 ; i < abundances.size() ; ++i)
       {
         Species newspec;
         newspec.Setup(abundances[i],selection_level[i]);
@@ -482,7 +443,7 @@ void NTsim::output()
 
 
       // we need to iterate through the data to set num_child
-      for (long i = 0 ; i < abundances.size() ; ++i)
+      for (unsigned long i = 0 ; i < abundances.size() ; ++i)
       {
         if (parents[i] >= 0)
         {
@@ -498,7 +459,7 @@ void NTsim::output()
       while(looping)
       {
         looping = false;
-        for (long i = 0 ; i < abundances.size() ; ++i)
+        for (unsigned long i = 0 ; i < abundances.size() ; ++i)
         {
           if (parents[i] >= 0)
           {
@@ -544,7 +505,7 @@ void NTsim::output()
       while(looping)
       {
         looping = false;
-        for (long i = 0 ; i < abundances.size() ; ++i)
+        for (unsigned long i = 0 ; i < abundances.size() ; ++i)
         {
           if (parents[i] >= 0)
           {
@@ -565,7 +526,7 @@ void NTsim::output()
       while(looping)
       {
         looping = false;
-        for (long i = 0 ; i < abundances.size() ; ++i)
+        for (unsigned long i = 0 ; i < abundances.size() ; ++i)
         {
           if (parents[i] >= 0)
           {
@@ -608,7 +569,7 @@ void NTsim::output()
 
 
       // could be that the final parent needs to be added still
-      for (long i = 0 ; i < abundances.size() ; ++i)
+      for (unsigned long i = 0 ; i < abundances.size() ; ++i)
       {
         if ((parents[i] == -1)&&((pruned_spec[i]).GetNumberOfSpecies()>0))
         {
@@ -619,7 +580,7 @@ void NTsim::output()
 
       long num_spec_total = 0;
       long num_ind_total = 0;
-      for (long i = 0 ; i < final_spec.size() ; ++i)
+      for (unsigned long i = 0 ; i < final_spec.size() ; ++i)
       {
         if ((final_spec[i].GetSumAbundances())>0)
         {
@@ -627,23 +588,6 @@ void NTsim::output()
           num_ind_total += (final_spec[i].GetSumAbundances());
         }
       }
-
-      /*
-
-               std::vector<double> FILE_generation_var; // will line up with the variance output rows for frequency of output here
-               std::vector<long> FILE_n; // value of n that applies for the rest of the readings (the first three above will probably repeat a lot)
-               std::vector<long> FILE_n_richness; // the species richness overall at this value of n
-               std::vector<long> FILE_num_subspec; // number of sub species - average over all species
-               std::vector<long> FILE_tot_abund; // total abundance of all sub species - average over all species
-               std::vector<double> FILE_meanc; // mean value of c - (within species) average over all species
-               std::vector<double> FILE_varc; // variange in c - (within species) average over all species
-               std::vector<long> FILE_rangec; // range in value of c - (within species) average over all species
-               std::vector<double> FILE_meanc_w; // mean value of c - (within species) weighted average over all species
-               std::vector<double> FILE_varc_w; // variange in c - (within species) weighted average over all species
-               std::vector<long> FILE_rangec_w; // range in value of c - (within species) weighted average over all species
-
-              //*/
-
 
       double temp_num_subspec = 0;
       double temp_tot_abund = 0;
@@ -656,7 +600,7 @@ void NTsim::output()
       double temp_varc_w = 0;
       double temp_rangec_w = 0;
 
-      for (long i = 0 ; i < final_spec.size() ; ++i)
+      for (unsigned long i = 0 ; i < final_spec.size() ; ++i)
       {
         if ((final_spec[i].GetSumAbundances())>0)
         {
@@ -716,7 +660,7 @@ void NTsim::output()
     }
   }
 
-  for (int i = 0 ; i < parents.size() ; ++i)
+  for (unsigned int i = 0 ; i < parents.size() ; ++i)
   {
     if (keep_data[i])
     {
@@ -763,7 +707,7 @@ void NTsim::output()
   double diffgen = born[topindex];
   parents[topindex] = -1;
   generation -= diffgen;
-  for (int i = 0 ; i < parents.size() ; ++i)
+  for (unsigned int i = 0 ; i < parents.size() ; ++i)
   {
     if (abundances[i] >= 0)
     {
@@ -794,7 +738,7 @@ void NTsim::output()
     num_mut[tempindex]  = -2.0; // %^&
     num_descend_spec[tempindex] = -2;
 
-    if (end_recycler < recycler.size())
+    if (end_recycler < static_cast<int>(recycler.size()))
     {
       recycler[end_recycler] = tempindex;
     }
@@ -922,8 +866,6 @@ void NTsim::sim_all(long seedin , long J_M_in , double mu_in , double s_in , dou
       if (difftime(end,start) >= (simtime))
       {
         timeout = true;
-        // £$%
-
       }
     }
   }
@@ -944,13 +886,6 @@ void NTsim::sim_all(long seedin , long J_M_in , double mu_in , double s_in , dou
         {
           timeout = true;
         }
-
-        // £$%
-        // std::cout << difftime(end,start) << " , " << true_generation << " - burning in (phase 2)\n";
-
-        //if (true_generation >= 154000) debug = true;
-        //if (debug) std::cout << "debug is on\n";
-
       }
 
       if (true_generation >= (gen_burned_in*double(simnum)/10.0 +4.0)) // 4 times the expected minimum burnin (hence the +4 here - up from 3) the /10 increases the frequency of outputting
@@ -1323,7 +1258,7 @@ void NTsim::sim_step()
         num_mut[tempindex] = -2;
         num_descend_spec[tempindex] = -2;
 
-        if (end_recycler < recycler.size())
+        if (end_recycler < static_cast<int>(recycler.size()))
         {
           recycler[end_recycler] = tempindex;
         }
@@ -1498,7 +1433,7 @@ void NTsim::write_files()
     // output just the header now
     out <<  "generation,iname,iname2,index,abundances,parents,born,died,selection_level,num_mut,max_abundance,maxabtime1,maxabtime2,num_descend_spec,divergence_date,relgen,tage,page\n";
 
-    for (long i = 0 ; i < FILE_generation.size() ; ++i)
+    for (unsigned long i = 0 ; i < FILE_generation.size() ; ++i)
     {
       out <<  FILE_generation[i] <<",";
       out <<  FILE_iname[i] <<",";
@@ -1525,7 +1460,7 @@ void NTsim::write_files()
     char filename_newick[100];
     sprintf (filename_newick, "Data_%i_FV_Newick_%i.txt", int(the_seed),int(num_file_outputs));
     out.open(filename_newick);
-    for (long i = 0 ; i < FILE_final_newick.size() ; ++i)
+    for (unsigned long i = 0 ; i < FILE_final_newick.size() ; ++i)
     {
       out << FILE_final_newick[i] << ";\n";
     }
@@ -1537,7 +1472,7 @@ void NTsim::write_files()
     // output just the header now
     out <<  "generation_var,n,n_richness,num_subspec,tot_abund,meanc,varc,rangec,meanc_w,varc_w,rangec_w\n";
 
-    for (long i = 0 ; i < FILE_generation_var.size() ; ++i)
+    for (unsigned long i = 0 ; i < FILE_generation_var.size() ; ++i)
     {
       out <<  FILE_generation_var[i] <<",";
       out <<  FILE_n[i] <<",";
@@ -1600,92 +1535,92 @@ void NTsim::write_files()
   // std::vectors
 
   out << recycler.size() << " ";
-  for (long i = 0 ; i < recycler.size() ; ++i)
+  for (unsigned long i = 0 ; i < recycler.size() ; ++i)
   {
     out << recycler[i] << " ";
   }
 
   out << init_ancestor.size() << " ";
-  for (long i = 0 ; i < init_ancestor.size() ; ++i)
+  for (unsigned long i = 0 ; i < init_ancestor.size() ; ++i)
   {
     out << init_ancestor[i] << " ";
   }
 
   out << num_descend.size() << " ";
-  for (long i = 0 ; i < num_descend.size() ; ++i)
+  for (unsigned long i = 0 ; i < num_descend.size() ; ++i)
   {
     out << num_descend[i] << " ";
   }
 
   out << metacommunity.size() << " ";
-  for (long i = 0 ; i < metacommunity.size() ; ++i)
+  for (unsigned long i = 0 ; i < metacommunity.size() ; ++i)
   {
     out << metacommunity[i] << " ";
   }
 
   out << abundances.size() << " ";
-  for (long i = 0 ; i < abundances.size() ; ++i)
+  for (unsigned long i = 0 ; i < abundances.size() ; ++i)
   {
     out << abundances[i] << " ";
   }
 
   out << parents.size() << " ";
-  for (long i = 0 ; i < parents.size() ; ++i)
+  for (unsigned long i = 0 ; i < parents.size() ; ++i)
   {
     out << parents[i] << " ";
   }
 
   out << born.size() << " ";
-  for (long i = 0 ; i < born.size() ; ++i)
+  for (unsigned long i = 0 ; i < born.size() ; ++i)
   {
     out << born[i] << " ";
   }
 
   out << died.size() << " ";
-  for (long i = 0 ; i < died.size() ; ++i)
+  for (unsigned long i = 0 ; i < died.size() ; ++i)
   {
     out << died[i] << " ";
   }
 
   out << selection_level.size() << " ";
-  for (long i = 0 ; i < selection_level.size() ; ++i)
+  for (unsigned long i = 0 ; i < selection_level.size() ; ++i)
   {
     out << selection_level[i] << " ";
   }
 
   out << num_mut.size() << " ";
-  for (long i = 0 ; i < num_mut.size() ; ++i)
+  for (unsigned long i = 0 ; i < num_mut.size() ; ++i)
   {
     out << num_mut[i] << " ";
   }
 
   out << max_abundance.size() << " ";
-  for (long i = 0 ; i < max_abundance.size() ; ++i)
+  for (unsigned long i = 0 ; i < max_abundance.size() ; ++i)
   {
     out << max_abundance[i] << " ";
   }
 
   out << maxabtime1.size() << " ";
-  for (long i = 0 ; i < maxabtime1.size() ; ++i)
+  for (unsigned long i = 0 ; i < maxabtime1.size() ; ++i)
   {
     out << maxabtime1[i] << " ";
   }
 
   out << maxabtime2.size() << " ";
-  for (long i = 0 ; i < maxabtime2.size() ; ++i)
+  for (unsigned long i = 0 ; i < maxabtime2.size() ; ++i)
   {
     out << maxabtime2[i] << " ";
   }
 
   out << num_descend_spec.size() << " ";
-  for (long i = 0 ; i < num_descend_spec.size() ; ++i)
+  for (unsigned long i = 0 ; i < num_descend_spec.size() ; ++i)
   {
     out << num_descend_spec[i] << " ";
   }
 
   std::vector<long> NR_suspend = NR.suspend();
   out << NR_suspend.size() << " ";
-  for (long i = 0 ; i < NR_suspend.size() ; ++i)
+  for (unsigned long i = 0 ; i < NR_suspend.size() ; ++i)
   {
     out << NR_suspend[i] << " ";
   }
