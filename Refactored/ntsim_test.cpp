@@ -12,6 +12,7 @@ void NTsim::Test() noexcept
     if (is_tested) return;
     is_tested = true;
   }
+  const bool verbose{false};
   NTsim sim;
   const int seed = 42;
   const int metacommunity_size = 100;
@@ -24,6 +25,7 @@ void NTsim::Test() noexcept
     selection_strength
   );
 
+  if (verbose)
   {
     const auto& cs = sim.GetFitnessCategories();
     std::copy(std::begin(cs),std::end(cs),
@@ -38,13 +40,14 @@ void NTsim::Test() noexcept
     {
       sim.sim_step();
     }
+    if (verbose)
     {
       const auto& cs = sim.GetFitnessCategories();
       std::copy(std::begin(cs),std::end(cs),std::ostream_iterator<long>(std::cout," "));
       std::cout << std::endl;
     }
   }
-  assert(!"DONE");
+  //assert(!"DONE");
 }
 
 #endif
