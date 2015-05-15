@@ -28,11 +28,11 @@ void Species::Clear() noexcept
 
 long Species::GetNumberOfSpecies() const noexcept
 {
-  //TODO: Can one not assume that abundances are above zero?
+  //Q: Can one not assume that abundances are above zero?
+  //A: No, abundances can be zero
+  //for (const auto abundance: m_abundances) { assert(abundance > 0); }
 
-  const auto n = std::count_if(
-    std::begin(m_abundances),
-    std::end(m_abundances),
+  const auto n = std::count_if(std::begin(m_abundances),std::end(m_abundances),
     [](const auto abundance) { return abundance > 0; }
   );
   return n;
@@ -46,83 +46,32 @@ long Species::GetSumAbundances() const noexcept
 
 long Species::GetTraitMax() const noexcept
 {
-  const auto trait_max = GetTraitMaxOld();
-  const auto trait_max_old = GetTraitMaxOld();
-  assert(trait_max == trait_max_old);
+  const auto trait_max = *std::max_element(std::begin(m_traits),std::end(m_traits));
   return trait_max;
-}
-
-long Species::GetTraitMaxOld() const noexcept
-{
-  if (m_traits.size() > 0)
-  {
-    long toret = m_traits[0];
-    for (long i = 1 ; i < m_traits.size() ; ++i)
-    {
-      if (toret < m_traits[i])
-      {
-        toret = m_traits[i];
-      }
-    }
-    return toret;
-  }
-  else
-  {
-    return 0;
-  }
 }
 
 long Species::GetTraitMin() const noexcept
 {
-  const auto trait_min = GetTraitMinOld();
-  const auto trait_min_old = GetTraitMinOld();
-  assert(trait_min == trait_min_old);
+  const auto trait_min = *std::min_element(std::begin(m_traits),std::end(m_traits));
   return trait_min;
-}
-
-long Species::GetTraitMinOld() const noexcept
-{
-  if (m_traits.size() > 0)
-  {
-    long toret = m_traits[0];
-    for (long i = 1 ; i < m_traits.size() ; ++i)
-    {
-      if (toret > m_traits[i])
-      {
-        toret = m_traits[i];
-      }
-    }
-    return toret;
-  }
-  else
-  {
-    return 0;
-  }
 }
 
 double Species::GetTraitMean() const noexcept
 {
-  const double trait_mean = GetTraitMeanOld();
-  const double trait_mean_old = GetTraitMeanOld();
-  assert(trait_mean == trait_mean_old);
+  assert(m_traits.size() == m_abundances.size());
+  //SUM(trait * abunance)
+  const double trait_sum_inner_product =
+    std::inner_product(
+      std::begin(m_traits),
+      std::end(m_traits),
+      std::begin(m_abundances),
+      0.0
+    );
+  const double trait_mean
+    = trait_sum_inner_product
+    / static_cast<double>(GetSumAbundances())
+  ;
   return trait_mean;
-}
-
-double Species::GetTraitMeanOld() const noexcept
-{
-  if ((m_traits.size() > 0)&&(GetSumAbundances() > 0))
-  {
-    double toret = 0;
-    for (long i = 0 ; i < m_traits.size() ; ++i)
-    {
-      toret += double(m_traits[i]*m_abundances[i]);
-    }
-    return (toret/double(GetSumAbundances()));
-  }
-  else
-  {
-    return 0;
-  }
 }
 
 double Species::GetTraitVariance() const noexcept

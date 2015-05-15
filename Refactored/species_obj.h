@@ -5,6 +5,18 @@
 #include <vector>
 
 ///Good species object
+///E.g. consider a good and incipition species, where
+/// both trait and abundances are kept together
+/*
+
+   |
+   |
+ +-+-+
+ |   |
+ +   +
+ A   B
+
+*/
 struct Species
 {
   Species();
@@ -19,29 +31,19 @@ struct Species
   long GetTraitMin() const noexcept;
   long GetTraitMax() const noexcept;
   double GetTraitVariance() const noexcept;
-
   void Setup(long abund_in, long c_in) noexcept;
 
 private:
 
-  //E.g. consider a good and incipition species, where
-  // both trait and abundances are kept together
-  //
-  //   |
-  //   |
-  // +-+-+
-  // |   |
-  // +   +
-  // A   B
-  //
   //Each species has a collection of traits
   std::vector<long> m_traits;
-  std::vector<long> m_abundances; //Number of individuals
+
+  ///Number of individuals
+  ///Q: Can one not assume that abundances are above zero?
+  ///A: No, abundances can be zero
+  std::vector<long> m_abundances;
 
   const std::vector<long>& GetAbundances() const noexcept { return m_abundances; }
-  double GetTraitMeanOld() const noexcept;
-  long GetTraitMaxOld() const noexcept;
-  long GetTraitMinOld() const noexcept;
   double GetTraitVarianceOld() const noexcept;
   const std::vector<long>& GetTraits() const noexcept { return m_traits; }
 };
