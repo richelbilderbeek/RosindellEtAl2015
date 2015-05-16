@@ -43,6 +43,6 @@ CONFIG(release, debug|release) {
 
 
 #Specific
-include(RosindellEtAl2014Desktop.pri)
+include(RosindellEtAl2015Desktop.pri)
 
 SOURCES += qtmain.cpp

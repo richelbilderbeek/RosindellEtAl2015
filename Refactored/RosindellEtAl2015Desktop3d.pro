@@ -15,7 +15,7 @@ unix:!macx{
   # Linux only
   message("Console application, built for Linux")
   QMAKE_CXXFLAGS += -Werror
-  QMAKE_CXXFLAGS += -std=c++1y -Wall -Wextra -Weffc++
+  QMAKE_CXXFLAGS += -std=c++1y -Wall -Wextra
 }
 
 cross_compile {
@@ -48,13 +48,26 @@ TEMPLATE = app
 #
 
 CONFIG(release, debug|release) {
-  DEFINES += NDEBUG
+  DEFINES += NDEBUG NTRACE_BILDERBIKKEL
 }
 
 
-
-#Specific
 include(RosindellEtAl2015Console.pri)
 
-SOURCES += main.cpp
+include(Urho3d.pri)
 
+LIBS += \
+    -lpthread \
+    -lSDL2 \ #Otherwise use -lSDL
+    -ldl \
+    -lGL
+
+SOURCES += \
+    mastercontrol.cpp \
+    inputmaster.cpp \
+    cameramaster.cpp
+
+HEADERS += \
+    mastercontrol.h \
+    inputmaster.h \
+    cameramaster.h
