@@ -42,7 +42,7 @@ If you get the error message `Not found: Urho3D/lib/libUrho3D.a` you did not suc
 Run the script `Refactored/Urho3D.sh` again and check the errors: you will have some packages 
 that need to be installed.
 
-[Competitive traits in time](RosindellEtAl2015.png)
+![Competitive traits in time](RosindellEtAl2015.png)
 
 Shown here are the competitive traits in time. Time goes from left to right. 
 Initialially, all lineages have the same competitive trait value. 
