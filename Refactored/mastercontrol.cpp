@@ -59,11 +59,11 @@ MasterControl::MasterControl(Context *context):
     Application(context)
 {
   {
-    const int error{std::system("ln -s ../../Libraries/Urho3D/bin/Data")};
+    const int error{std::system("ln -s ../Refactored/Urho3D/bin/Data")};
     if (error) {}
   }
   {
-    const int error{std::system("ln -s ../../Libraries/Urho3D/bin/CoreData")};
+    const int error{std::system("ln -s ../Refactored/Urho3D/bin/CoreData")};
     if (error) {}
   }
 }
@@ -73,7 +73,7 @@ void MasterControl::Setup()
 {
   // Modify engine startup parameters.
   //Set custom window title and icon.
-  engineParameters_["WindowTitle"] = "RosindellEtAl2008";
+  engineParameters_["WindowTitle"] = "RosindellEtAl2015";
   engineParameters_["LogName"] = GetSubsystem<FileSystem>()->GetAppPreferencesDir("urho3d", "logs")+"RosindellEtAl2008.log";
   engineParameters_["FullScreen"] = false;
   engineParameters_["Headless"] = false;
@@ -166,6 +166,7 @@ void MasterControl::CreateScene()
   //Create octree, use default volume (-1000, -1000, -1000) to (1000,1000,1000)
   {
     world_.scene->CreateComponent<Octree>();
+
   }
   //Create the physics
   {
@@ -248,7 +249,7 @@ void MasterControl::CreateScene()
         Node * const node{world_.scene->CreateChild()};
         node->SetPosition(
           Vector3(
-            0.5 + (static_cast<double>(x) * 1.0), //Urho: X
+            -500.0 + 0.5 + (static_cast<double>(x) * 1.0), //Urho: X
             0.5 + (static_cast<double>(y) * 1.0), //Urho: Y
             0.5 + (static_cast<double>(z) * 1.0)  //Urho: Z
           )
@@ -264,6 +265,7 @@ void MasterControl::CreateScene()
 
   //Create camera
   world_.camera = new CameraMaster(context_, this);
+
 }
 
 

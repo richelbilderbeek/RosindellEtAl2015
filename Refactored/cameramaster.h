@@ -39,7 +39,7 @@ private:
     SharedPtr<Node> rotationNode_;
 
     SharedPtr<RigidBody> rigidBody_;
-    double yaw_ = 0.0;
+    double yaw_ = 55.0;
     double pitch_ = 0.0;
     //double roll_ = 0.0;
     double yawDelta_ = 0.0;

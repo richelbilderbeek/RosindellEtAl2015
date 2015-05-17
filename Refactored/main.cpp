@@ -4,7 +4,6 @@
 //   "Unifying ecology and macroevolution with individual‐based theory."
 //   Ecology letters 18.5 (2015): 472-482.
 //
-//
 // Original version:
 //   Version 1.2 Jan 2014
 //   Author: James Rosindell

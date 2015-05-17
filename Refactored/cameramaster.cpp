@@ -50,7 +50,7 @@ CameraMaster::CameraMaster(
   camera_->SetFarClip(1024.0f);
   //Set an initial position for the camera scene node above the origin
   //translationNode_->SetPosition(Vector3(0.0f, 3.0f, 0.0f));
-  translationNode_->SetPosition(Vector3(0.0, 3.0,-20.0));
+  translationNode_->SetPosition(Vector3(-500.0, 3.0,-10.0));
 
   rotationNode_->SetRotation(Quaternion(0.0f, 90.0f, 0.0f));
   rigidBody_ = translationNode_->CreateComponent<RigidBody>();

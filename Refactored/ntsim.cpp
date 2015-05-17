@@ -1,3 +1,15 @@
+// Code for the article
+//
+//   Rosindell, James, Luke J. Harmon, and Rampal S. Etienne.
+//   "Unifying ecology and macroevolution with individual‐based theory."
+//   Ecology letters 18.5 (2015): 472-482.
+//
+// Original version:
+//   Version 1.2 Jan 2014
+//   Author: James Rosindell
+//
+// Refactoring by Richel Bilderbeek
+
 #include "ntsim.h"
 
 #include <cassert>
@@ -927,7 +939,7 @@ void NTsim::sim_all(
 
   setup(seed,metacommunity_size,mutation_rate,selection_strength);
 
-  while (((m_n_remain > 1)||(m_abundances[0] > 0))&&(!timeout))
+  while ((m_n_remain > 1 || m_abundances[0] > 0) && !timeout)
   {
     sim_step();
     steps ++;
@@ -947,7 +959,7 @@ void NTsim::sim_all(
   {
     m_gen_burned_in = m_true_generation; // inside the if statement beacuse if we have run out of time then this is not the correct gen_burned_in
 
-    while ((!timeout)&&(m_iter <= 1000000)) // checks in time and also that not too much HDD space has been used
+    while (!timeout && m_iter <= 1000000) // checks in time and also that not too much HDD space has been used
     {
       sim_step();
       steps ++;

@@ -1,3 +1,5 @@
+include(RosindellEtAl2015Console.pri)
+
 SOURCES += \
     qtwidget.cpp
 
