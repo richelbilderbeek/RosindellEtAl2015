@@ -1,5 +1,9 @@
 # RosindellEtAl2015
 
+Branch|[![Travis CI logo](TravisCI.png)](https://travis-ci.org)|[![Codecov logo](Codecov.png)](https://www.codecov.io)
+---|---|---
+master|[![Build Status](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015.svg?branch=master)](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015)|[![codecov.io](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/branch/master)
+
 Code for this article:
 
 ```
