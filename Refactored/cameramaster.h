@@ -47,3 +47,5 @@ private:
     double forceMultiplier = 1.0;
     void SetupViewport();
 };
+
+double Clamp(double value, double min, double max);

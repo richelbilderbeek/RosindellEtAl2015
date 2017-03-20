@@ -1,12 +1,12 @@
 HEADERS += \
-    helper.h \
-    nrrand.h \
-    ntsim.h \
-    species.h
+    $$PWD/helper.h \
+    $$PWD/nrrand.h \
+    $$PWD/ntsim.h \
+    $$PWD/species.h
 
 SOURCES += \
-    helper.cpp \
-    nrrand.cpp \
-    ntsim.cpp \
-    ntsim_test.cpp \
-    species.cpp
+    $$PWD/helper.cpp \
+    $$PWD/nrrand.cpp \
+    $$PWD/ntsim.cpp \
+    $$PWD/ntsim_test.cpp \
+    $$PWD/species.cpp

@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <cassert>
 #include <fstream>
+#include <numeric>
 
 Species::Species()
   : m_fitnesses{},

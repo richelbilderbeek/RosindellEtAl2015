@@ -12,7 +12,8 @@ install:
   - sudo apt-get install -qq g++-5
   # Urho3D
   - sudo apt-get install libx11-dev libxrandr-dev libasound2-dev libgl1-mesa-dev
-  - sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
+  #- sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
+  - sudo apt-get install libsdl2-dev
 
 addons:
   apt:
@@ -32,6 +33,7 @@ before_script:
 
 script: 
   - cd Refactored
+  - ./Urho3d.sh
   # Console
   - qmake RosindellEtAl2015Console.pro
   - make

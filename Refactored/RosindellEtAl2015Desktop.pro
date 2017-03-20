@@ -1,48 +1,66 @@
-
-win32 {
-  # Windows only
-  message("Desktop application, built for Windows")
-  greaterThan(QT_MAJOR_VERSION, 4): QT += svg sql printsupport #webkit
-  QMAKE_CXXFLAGS += -std=c++11 -Wall -Wextra -Weffc++
-}
-
-macx {
-  # Mac only
-  message("Desktop application, built for Mac")
-  QMAKE_CXXFLAGS = -mmacosx-version-min=10.7 -std=gnu0x -stdlib=libc+
-  CONFIG +=c++11
-}
-
-unix:!macx {
-  # Linux only
-  message("Desktop application, built for Linux")
-  greaterThan(QT_MAJOR_VERSION, 4): QT += svg sql printsupport
-  QMAKE_CXXFLAGS += -std=c++1y -Wall -Wextra -Weffc++ -Werror
-}
-
-cross_compile {
-  # Crosscompile only
-  message("Desktop application, built for cross-compiling from Linux to Windows")
-  QMAKE_CXXFLAGS += -std=c++1y -Wall -Wextra -Weffc++
-}
-
-
-QT       += core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TEMPLATE = app
-
-CONFIG(debug, debug|release) {
-  message(Debug mode)
-}
-
-CONFIG(release, debug|release) {
-  message(Release mode)
-  DEFINES += NDEBUG NTRACE_BILDERBIKKEL
-}
-
-
-#Specific
 include(RosindellEtAl2015Desktop.pri)
-
 SOURCES += qtmain.cpp
+
+# C++14
+CONFIG += c++14
+QMAKE_CXXFLAGS += -std=c++14
+
+# High warning levels
+# Qt does not go well with -Weffc++
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror
+
+# Debug and release mode
+CONFIG += debug_and_release
+
+# In release mode, define NDEBUG
+CONFIG(release, debug|release) {
+
+  DEFINES += NDEBUG
+
+  # GSL
+  DEFINES += GSL_UNENFORCED_ON_CONTRACT_VIOLATION
+
+  # gprof
+  QMAKE_CXXFLAGS += -pg
+  QMAKE_LFLAGS += -pg
+}
+
+# In debug mode, turn on gcov and UBSAN
+CONFIG(debug, debug|release) {
+
+  # GSL
+  DEFINES += GSL_UNENFORCED_ON_CONTRACT_VIOLATION
+
+  # gcov
+  QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage
+  LIBS += -lgcov
+
+  # UBSAN
+  QMAKE_CXXFLAGS += -fsanitize=undefined
+  QMAKE_LFLAGS += -fsanitize=undefined
+  LIBS += -lubsan
+}
+
+# Qt
+QT += core gui widgets
+
+# Prevent Qt for failing with this error:
+# qrc_[*].cpp:400:44: error: ‘qInitResources_[*]__init_variable__’ defined but not used
+# [*]: the resource filename
+QMAKE_CXXFLAGS += -Wno-unused-variable
+
+# Fixes
+#/usr/include/boost/math/constants/constants.hpp:277: error: unable to find numeric literal operator 'operator""Q'
+#   BOOST_DEFINE_MATH_CONSTANT(half, 5.000000000000000000000000000000000000e-01, "5.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e-01")
+#   ^
+QMAKE_CXXFLAGS += -fext-numeric-literals
+
+message(Host name: $$QMAKE_HOST.name)
+contains(QMAKE_HOST.name,fwn-biol-132-102) {
+  message("Host is university computer in my office")
+  QMAKE_CXX = g++-5
+  QMAKE_LINK = g++-5
+  QMAKE_CC = gcc-5
+}
+
+
