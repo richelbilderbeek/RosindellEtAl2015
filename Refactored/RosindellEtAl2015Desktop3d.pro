@@ -25,7 +25,7 @@ QMAKE_CXXFLAGS += -std=c++14
 # Qt does not go well with -Weffc++
 # Urho3D does not go well with -pedantic
 # Urho3D does not go well with -Wnarrowing
-QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor -Werror
+QMAKE_CXXFLAGS += -Wall -Wextra -Wshadow -Wnon-virtual-dtor
 QMAKE_CXXFLAGS += -Wno-narrowing
 
 # Debug and release mode
