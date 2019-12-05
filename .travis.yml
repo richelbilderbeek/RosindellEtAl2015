@@ -34,6 +34,7 @@ script:
   - sleep 10
   - sudo killall RosindellEtAl2015Desktop3d
   # Get code coverage
+  - cd ..
   - ./scripts/get_code_cov.sh
   - codecov
 

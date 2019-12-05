@@ -1,7 +1,4 @@
 #!/bin/bash
-GCOV_EXE=gcov
-
-OBJ_FILES_PATH=.
 
 if [ ! -d "$OBJ_FILES_PATH" ]
 then
@@ -9,4 +6,8 @@ then
   exit 1
 fi
 
-for filename in `find . | egrep '\.cpp'`; do $GCOV_EXE -n -o $OBJ_FILES_PATH $filename > /dev/null; done
+for filename in $(find . | egrep '\.cpp')
+do 
+  gcov -n -o . $filename > /dev/null
+done
+
