@@ -17,7 +17,7 @@ services:
 
 script: 
   - cd Refactored
-  - ./Urho3d.sh
+  - ./install_urho3d
   # Console
   - qmake RosindellEtAl2015Console.pro
   - make
