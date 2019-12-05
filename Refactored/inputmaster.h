@@ -4,7 +4,6 @@
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wunused-variable"
-#define BT_INFINITY
 #include <Urho3D/Input/Input.h>
 #pragma GCC diagnostic pop
 
@@ -21,7 +20,7 @@ using namespace Urho3D;
 
 class InputMaster : public Object
 {
-  OBJECT(InputMaster);
+  URHO3D_OBJECT(InputMaster, Object)
 public:
   InputMaster(
     Context * const context,

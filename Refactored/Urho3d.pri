@@ -1,8 +1,8 @@
 INCLUDEPATH += \
-    Urho3D/include \
-    Urho3D/include/Urho3D/ThirdParty
+    $$PWD/../Urho3D/include \
+    $$PWD/../Urho3D/include/Urho3D/ThirdParty
 
 LIBS += \
-  ../Refactored/Urho3D/lib/libUrho3D.a
+  $$PWD/../Urho3D/lib/libUrho3D.a
 
 DEFINES += RIBI_USE_SDL_2
