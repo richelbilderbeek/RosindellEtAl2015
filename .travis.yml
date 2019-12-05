@@ -16,9 +16,9 @@ services:
  - xvfb
 
 script: 
-  - cd Refactored
-  - ./install_urho3d
+  - ./scripts/install_urho3d
   # Console
+  - cd Refactored
   - qmake RosindellEtAl2015Console.pro
   - make
   # Desktop

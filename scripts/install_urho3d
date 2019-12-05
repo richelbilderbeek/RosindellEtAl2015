@@ -1,8 +1,10 @@
 #!/bin/sh
 
-# Go to superfolder
-cd ..
-
+#
+# Usage:
+#
+# ./scripts/install_urho3d
+#
 if [ ! -d Urho3D ]
 then
   git clone https://github.com/Urho3D/Urho3D
