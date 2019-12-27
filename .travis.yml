@@ -40,3 +40,4 @@ script:
 after_success:
   # Codecov
   - bash <(curl -s https://codecov.io/bash)
+
