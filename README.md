@@ -5,9 +5,9 @@ Branch |[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)           
 master |[![Build Status](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015.svg?branch=master)](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015) |[![codecov.io](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/branch/master)
 develop|[![Build Status](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015)|[![codecov.io](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/branch/develop)
 
-![](RosindellEtAl2015_1.png)
+![](pics/RosindellEtAl2015_1.png)
 
-![](RosindellEtAl2015_2.png)
+![](pics/RosindellEtAl2015_2.png)
 
 Code for this article:
 
@@ -71,5 +71,5 @@ Note: the code in `Original` will be kept as the golden standard. Any modificati
 
 ## Other screenshots
 
-![](RosindellEtAl2015_3.png)
+![](pics/RosindellEtAl2015_3.png)
 
