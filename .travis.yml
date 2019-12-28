@@ -39,7 +39,7 @@ script:
   - sudo killall RosindellEtAl2015Desktop3d
   - cd ..
   # Get code coverage
-  - ../scripts/get_code_cov.sh
+  - ./scripts/get_code_cov.sh
   - codecov
 
 after_success:
