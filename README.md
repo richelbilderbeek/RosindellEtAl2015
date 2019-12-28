@@ -6,7 +6,9 @@ master |[![Build Status](https://travis-ci.org/richelbilderbeek/RosindellEtAl201
 develop|[![Build Status](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015)|[![codecov.io](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/branch/develop)
 
 ![](RosindellEtAl2015_1.png)
+
 ![](RosindellEtAl2015_2.png)
+
 
 Code for this article:
 
@@ -67,3 +69,8 @@ You can be assigned an Issue, if you posted one. Also Pull Requests are fine.
 
 Note: the code in `Original` will be kept as the golden standard. Any modifications to `Original` are rejected, use
 `Refactored` instead.
+
+## Other screenshots
+
+![](RosindellEtAl2015_3.png)
+
