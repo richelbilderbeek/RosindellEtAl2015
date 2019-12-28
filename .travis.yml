@@ -21,18 +21,23 @@ script:
   - cd Refactored
   - qmake RosindellEtAl2015Console.pro
   - make
+  - cd ..
   # Desktop
+  - cd Refactored
   - qmake RosindellEtAl2015Desktop.pro
   - make
   - ./RosindellEtAl2015Desktop &
   - sleep 10
   - sudo killall RosindellEtAl2015Desktop
+  - cd ..
   # Desktop 3D
+  - cd Refactored
   - qmake RosindellEtAl2015Desktop3d.pro
   - make
   - ./RosindellEtAl2015Desktop3d &
   - sleep 10
   - sudo killall RosindellEtAl2015Desktop3d
+  - cd ..
   # Get code coverage
   - ../scripts/get_code_cov.sh
   - codecov
