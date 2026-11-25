@@ -41,3 +41,7 @@ build-RosindellEtAl2015Desktop3d-Desktop-Release/*
 Refactored/Urho3D/
 
 site/
+
+wordlist.dic
+
+coverage/

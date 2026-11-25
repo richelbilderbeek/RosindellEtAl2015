@@ -31,12 +31,12 @@ Both folders `Original` and `Refactored` contain an (identically working) consol
 
 The `.cpp` file in `Original` can be compiled manually.
 
-The console version in `Refactored` can be compiled by opening the 
+The console version in `Refactored` can be compiled by opening the
 Qt Creator project file `RosindellEtAl2015Console.pro` in e.g. Qt Creator.
 
 ## Desktop version
 
-The desktop version in `Refactored` can be compiled by opening the 
+The desktop version in `Refactored` can be compiled by opening the
 Qt Creator project file `RosindellEtAl2015Desktop.pro` in e.g. Qt Creator.
 
 ## 3D version
@@ -46,17 +46,17 @@ The 3D version uses the library [Urho3D](https://github.com/urho3d/Urho3D).
 To build Urho3D, run the script `Refactored/Urho3D.sh`. Notice the errors, you might
 have some packages that need to be installed.
 
-The 3D version in `Refactored` can be compiled by opening the 
+The 3D version in `Refactored` can be compiled by opening the
 Qt Creator project file `RosindellEtAl2015Desktop3d.pro` in e.g. Qt Creator.
 
 If you get the error message `Not found: Urho3D/lib/libUrho3D.a` you did not successfully build Urho3D.
-Run the script `Refactored/Urho3D.sh` again and check the errors: you will have some packages 
+Run the script `Refactored/Urho3D.sh` again and check the errors: you will have some packages
 that need to be installed.
 
 ![Competitive traits in time](RosindellEtAl2015.png)
 
-Shown here are the competitive traits in time. Time goes from left to right. 
-Initialially, all lineages have the same competitive trait value. 
+Shown here are the competitive traits in time. Time goes from left to right.
+Initialially, all lineages have the same competitive trait value.
 Trait values go from front to back.
 The number of different traits is stacked.
 
