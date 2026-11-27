@@ -1,12 +1,9 @@
 # RosindellEtAl2015
 
+[![Codecov](https://codecov.io/gh/richelbilderbeek/RosindellEtAl2015/branch/main/graph/badge.svg)](https://codecov.io/gh/richelbilderbeek/RosindellEtAl2015)
+
 [Go to the nicely rendered
 website](https://richelbilderbeek.github.io/RosindellEtAl2015/).
-
-Branch |[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)                                                                                           |[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
--------|--------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-master |[![Build Status](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015.svg?branch=master)](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015) |[![codecov.io](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/branch/master)
-develop|[![Build Status](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015.svg?branch=develop)](https://travis-ci.org/richelbilderbeek/RosindellEtAl2015)|[![codecov.io](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/RosindellEtAl2015/branch/develop)
 
 ![RosindellEtAl2015 screenshot 1](pics/RosindellEtAl2015_1.png)
 

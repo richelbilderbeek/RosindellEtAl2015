@@ -2,7 +2,7 @@
 site_name = "RosindellEtAl2015"
 site_url = "https://richelbilderbeek.github.io/RosindellEtAl2015/"
 repo_url = "https://github.com/richelbilderbeek/RosindellEtAl2015"
-edit_uri = "blob/master/docs/"
+edit_uri = "blob/main/docs/"
 
 nav = [
   { "Start" = "README.md"}
